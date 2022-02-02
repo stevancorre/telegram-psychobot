@@ -27,15 +27,17 @@ export class TelegramClient extends TelegramBot implements ITelegramClient {
     }
 
     private registerCommands(): void {
-        this.onText(/\/ping/i, async (message: Message, _: MessageMatch) => {
-            await this.sendReplyMessage(message, "Pong! 🏓"); // table tennis emoji
+        this.onText(/^\/ping/i, async (message: Message, _: MessageMatch) => {
+            console.log(_);
+            
+            await this.sendReplyMessage(message, "Pong\\! 🏓"); // table tennis emoji
         });
 
-        this.onText(/\/breath/i, async (message: Message, _: MessageMatch) => {
+        this.onText(/^\/breathe/i, async (message: Message, _: MessageMatch) => {
             await this.sendReplyVideo(message, "https://i.imgur.com/xtwSfR0.gif");
         });
 
-        this.onText(/\/info (.*)/i, async (message: Message, match: MessageMatch) => {
+        this.onText(/^\/info (.*)/i, async (message: Message, match: MessageMatch) => {
             if (!match) {
                 return;
             }
@@ -61,10 +63,6 @@ export class TelegramClient extends TelegramBot implements ITelegramClient {
 
                 return await this.sendReplyMessage(message, `Error: No API data available for \`${match[1]}\``);
             }
-        });
-
-        this.onText(/\/test/i, async (message: Message, _: MessageMatch) => {
-            await this.sendReplyMessage(message, "Ok");
         });
 
         this.getMe().then((user: TelegramBot.User) => {
