@@ -106,8 +106,20 @@ export class TelegramClient extends TelegramBot implements ITelegramClient {
             durations.appendField("Total", formatMinMax(roa.duration.total, roa.duration.total?.units, durationAliasesTable));
         }
 
+        const tolerance: IMessageCategoryBuilder = new MessageCategoryBuilder("📈 Tolerance", "tolerance");
+        tolerance.appendField("Zero", substance.tolerance?.zero);
+        tolerance.appendField("Half", substance.tolerance?.half);
+        tolerance.appendField("Full", substance.tolerance?.full);
+
+        const addictionPotential: IMessageCategoryBuilder = new MessageCategoryBuilder("⚠️ Addiction potential", "addiction potential");
+        if (substance.addictionPotential) {
+            addictionPotential.appendLine(capitalize(substance.addictionPotential));
+        }
+
         messageBuilder.appendCategory(dosages);
         messageBuilder.appendCategory(durations);
+        messageBuilder.appendCategory(tolerance);
+        messageBuilder.appendCategory(addictionPotential);
 
         return messageBuilder.getContent();
     }
