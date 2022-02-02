@@ -1,0 +1,40 @@
+{
+  "name": "parlons-conso-bot",
+  "version": "1.0.0",
+  "description": "Bot Telegram pour le groupe Parlons Conso (https://t.me/parlons_conso)",
+  "main": "src/main.ts",
+  "scripts": {
+    "start:dev": "nodemon",
+    "start": "npm run build && node build/main.ts",
+    "build": "rimraf ./build && tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stevancorre/parlons-conso-bot.git"
+  },
+  "keywords": [
+    "Bot",
+    "Telegram",
+    "NPM",
+    "Node",
+    "TypeScript",
+    "Parlons",
+    "Conso"
+  ],
+  "author": "Stévan Corre <stevancorre@protonmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stevancorre/parlons-conso-bot/issues"
+  },
+  "homepage": "https://github.com/stevancorre/parlons-conso-bot#readme",
+  "devDependencies": {
+    "@types/node": "^17.0.14",
+    "nodemon": "^2.0.15",
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.5"
+  },
+  "dependencies": {
+    "dotenv": "^15.0.0"
+  }
+}
