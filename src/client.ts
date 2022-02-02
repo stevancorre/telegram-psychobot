@@ -17,9 +17,18 @@ export class TelegramClient extends TelegramBot {
             await this.sendReplyMessage(message, "Pong! 🏓"); // table tennis emoji
         });
 
+        this.onText(/\/breath|respire/i, async (message: Message, _: MessageMatch) => {
+            await this.sendReplyVideo(message, "https://i.imgur.com/xtwSfR0.gif");
+        });
+
         this.getMe().then((user: TelegramBot.User) => {
             console.log(`[CONNECTED AS @${user.username}]`);
         });
+    }
+
+    private sendReplyVideo(replyTo: Message, video: string): Promise<Message> {
+        const chatId = replyTo.chat.id;
+        return this.sendVideo(chatId, video, { reply_to_message_id: replyTo.message_id })
     }
 
     private sendReplyMessage(replyTo: Message, text: string): Promise<Message> {
