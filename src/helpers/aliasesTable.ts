@@ -3,11 +3,7 @@ export interface IAliasesTable {
 }
 
 export class AliasesTable implements IAliasesTable {
-    private readonly table: { [id: string] : string; };
-
-    constructor(items: { [id: string] : string; }) {
-        this.table = items;
-    }
+    constructor(private table: { [id: string]: string; }) { }
 
     tryGetAlias(key: string): string {
         return this.table[key] ?? key;

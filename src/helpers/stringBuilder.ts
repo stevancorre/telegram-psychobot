@@ -4,13 +4,12 @@ export interface IStringBuilder {
     appendNewLines(count: number): IStringBuilder;
     appendInTags(content: string, ...tags: string[]): IStringBuilder;
     appendLineInTags(content: string, ...tags: string[]): IStringBuilder;
+
     getContent(): string;
 }
 
 export class StringBuilder implements IStringBuilder {
-    public constructor(private content: string = "") {
-        this.content = content;
-    }
+    public constructor(private content: string = "") { }
 
     public append(content: string): IStringBuilder {
         this.content += content;

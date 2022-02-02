@@ -51,14 +51,14 @@ export class TelegramClient extends TelegramBot implements ITelegramClient {
                 if (!response.data.substances) {
                     return await this.sendReplyMessage(message, `Error: No API data available for \`${match[1]}\``);
                 }
-    
+
                 const substance: ISubstance = response.data.substances[0];
                 await this.sendReplyMessage(message, this.buildSubstanceInfoMessage(substance), "HTML");
 
             } catch (err) {
                 console.error("[ERROR]");
                 console.error(err);
-                
+
                 return await this.sendReplyMessage(message, `Error: No API data available for \`${match[1]}\``);
             }
         });

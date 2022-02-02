@@ -19,7 +19,7 @@ export class MessageCategoryBuilder extends StringBuilder implements IMessageCat
 
         this.appendInTags(key, "b");
         this.appendLine(`: ${value}`);
-        
+
         return this;
     }
 
