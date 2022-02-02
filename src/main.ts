@@ -1,12 +1,11 @@
+import { TelegramClient } from "./client";
+
 require("dotenv").config();
 
-import config from './config.json'; 
-
-console.log(`${config.name} v${config.version} by ${config.author}`);
-console.log(`Repository: ${config.githubRepository}`);
-
-const TOKEN: string | undefined = process.env.TOKEN;
-if (TOKEN === undefined) {
+const token: string | undefined = process.env.TOKEN;
+if (token === undefined) {
     console.error("Missing configuration key `TOKEN` in `.env`.");
     process.exit(1);
 }
+
+const client: TelegramClient = new TelegramClient(token);
