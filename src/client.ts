@@ -9,7 +9,9 @@ import { buildSubstanceRoas } from "./builders/substanceRoaBuilder";
 type Message = TelegramBot.Message;
 type MessageMatch = RegExpExecArray | null;
 
-export class TelegramClient extends TelegramBot {
+export interface ITelegramClient {}
+
+export class TelegramClient extends TelegramBot implements ITelegramClient {
     private readonly PW_ENDPOINT: string = "https://api.psychonautwiki.org/";
     private readonly graphqlClient: GraphQLClient;
     
