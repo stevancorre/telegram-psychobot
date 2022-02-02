@@ -1,12 +1,14 @@
-import { gql } from 'graphql-request'
 import { ISubstance } from '../types/ISubstance';
 
-export interface PwInfoResponse {
-  substances: ISubstance[];
+export interface IPwInfoResponse {
+  errors: any[];
+  data: {
+    substances: ISubstance[];
+  }
 };
 
 export function getPwInfoQuery(substanceName: string): string {
-  return gql`{
+  return `{
     substances(query: "${substanceName}") {
     name
     url

@@ -1,9 +1,9 @@
 import TelegramBot from "node-telegram-bot-api";
-import { GraphQLClient } from 'graphql-request'
+import rp from "request-promise";
 
 import { substanceAliasesTable } from "./helpers/substanceAliasesTable";
 import { durationAliasesTable } from "./helpers/durationAliasesTable";
-import { getPwInfoQuery, PwInfoResponse } from "./queries/infoQuery";
+import { getPwInfoQuery, IPwInfoResponse } from "./queries/infoQuery";
 import { ISubstance } from "./types/ISubstance";
 import { IMessageBuilder, MessageBuilder } from "./messages/messageBuilder";
 import { IMessageCategoryBuilder, MessageCategoryBuilder } from "./messages/messageCategoryBuilder";
@@ -12,12 +12,11 @@ import { capitalize, formatMinMax } from "./helpers/formatters";
 type Message = TelegramBot.Message;
 type MessageMatch = RegExpExecArray | null;
 
+const PW_ENDPOINT: string = "https://api.psychonautwiki.org/";
+
 export interface ITelegramClient { }
 
 export class TelegramClient extends TelegramBot implements ITelegramClient {
-    private readonly PW_ENDPOINT: string = "https://api.psychonautwiki.org/";
-    private readonly graphqlClient: GraphQLClient;
-
     public constructor(token: string) {
         // telegram client itself
         super(token, {
@@ -25,9 +24,6 @@ export class TelegramClient extends TelegramBot implements ITelegramClient {
         });
 
         this.registerCommands();
-
-        // graphql client
-        this.graphqlClient = new GraphQLClient(this.PW_ENDPOINT);
     }
 
     private registerCommands(): void {
@@ -47,13 +43,22 @@ export class TelegramClient extends TelegramBot implements ITelegramClient {
             const substanceName: string = substanceAliasesTable.tryGetAlias(match[1]).replace(" ", "");
             const query: string = getPwInfoQuery(substanceName);
 
-            const result = await this.graphqlClient.request<PwInfoResponse>(query);
-            if (result.substances.length === 0) {
-                return await this.sendReplyMessage(message, `Error: No API data available for \`${match[1]}\``);
-            }
+            const encodedQuery = encodeURIComponent(query);
+            const url = `${PW_ENDPOINT}/?query=${encodedQuery}`;
 
-            const substance: ISubstance = result.substances[0];
-            await this.sendReplyMessage(message, this.buildSubstanceInfoMessage(substance), "HTML");
+            try {
+                const response: IPwInfoResponse = JSON.parse(await rp(url)) as IPwInfoResponse;
+                if (!response.data.substances) {
+                    return await this.sendReplyMessage(message, `Error: No API data available for \`${match[1]}\``);
+                }
+    
+                const substance: ISubstance = response.data.substances[0];
+                await this.sendReplyMessage(message, this.buildSubstanceInfoMessage(substance), "HTML");
+
+            } catch (err) {
+                console.error("[ERROR]");
+                console.error(err);
+            }
         });
 
         this.onText(/\/test/i, async (message: Message, _: MessageMatch) => {
