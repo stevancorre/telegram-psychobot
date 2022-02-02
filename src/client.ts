@@ -58,6 +58,8 @@ export class TelegramClient extends TelegramBot implements ITelegramClient {
             } catch (err) {
                 console.error("[ERROR]");
                 console.error(err);
+                
+                return await this.sendReplyMessage(message, `Error: No API data available for \`${match[1]}\``);
             }
         });
 
@@ -95,6 +97,8 @@ export class TelegramClient extends TelegramBot implements ITelegramClient {
             dosages.appendField("Common", formatMinMax(roa.dose.common, roa.dose.units));
             dosages.appendField("Strong", formatMinMax(roa.dose.strong, roa.dose.units));
             dosages.appendField("Heavy", formatMinMax(roa.dose.heavy, roa.dose.units));
+
+            dosages.appendNewLines(1);
         }
 
         const durations: IMessageCategoryBuilder = new MessageCategoryBuilder("🕐 Duration", "duration");
@@ -109,12 +113,15 @@ export class TelegramClient extends TelegramBot implements ITelegramClient {
             durations.appendField("Offset", formatMinMax(roa.duration.offset, roa.duration.offset?.units, durationAliasesTable));
             durations.appendField("Afterglow", formatMinMax(roa.duration.afterglow, roa.duration.afterglow?.units, durationAliasesTable));
             durations.appendField("Total", formatMinMax(roa.duration.total, roa.duration.total?.units, durationAliasesTable));
+
+            durations.appendNewLines(1);
         }
 
         const tolerance: IMessageCategoryBuilder = new MessageCategoryBuilder("📈 Tolerance", "tolerance");
         tolerance.appendField("Zero", substance.tolerance?.zero);
         tolerance.appendField("Half", substance.tolerance?.half);
         tolerance.appendField("Full", substance.tolerance?.full);
+        tolerance.appendNewLines(1);
 
         const addictionPotential: IMessageCategoryBuilder = new MessageCategoryBuilder("⚠️ Addiction potential", "addiction potential");
         if (substance.addictionPotential) {

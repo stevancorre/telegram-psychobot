@@ -16,7 +16,6 @@ export class MessageBuilder extends StringBuilder implements IMessageBuilder {
 
     public appendCategory(category: IMessageCategoryBuilder): IMessageBuilder {
         this.appendLine(category.getContent());
-        this.appendNewLines(1);
 
         return this;
     }
