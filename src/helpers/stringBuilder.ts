@@ -2,15 +2,13 @@ export interface IStringBuilder {
     append(content: string): IStringBuilder;
     appendLine(content: string): IStringBuilder;
     appendNewLines(count: number): IStringBuilder;
-    appendInTags(content: string): IStringBuilder;
-    appendLineInTags(content: string): IStringBuilder;
+    appendInTags(content: string, ...tags: string[]): IStringBuilder;
+    appendLineInTags(content: string, ...tags: string[]): IStringBuilder;
     getContent(): string;
 }
 
 export class StringBuilder implements IStringBuilder {
-    private content: string;
-
-    public constructor(content: string = "") {
+    public constructor(private content: string = "") {
         this.content = content;
     }
 

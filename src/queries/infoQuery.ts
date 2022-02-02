@@ -1,8 +1,8 @@
 import { gql } from 'graphql-request'
-import { Substance } from '../types/Substance';
+import { ISubstance } from '../types/ISubstance';
 
 export interface PwInfoResponse {
-  substances: Substance[];
+  substances: ISubstance[];
 };
 
 export function getPwInfoQuery(substanceName: string): string {
