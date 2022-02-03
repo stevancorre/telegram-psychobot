@@ -1,11 +1,11 @@
+import { Dictionary } from "./dictionary";
+
 export interface IAliasesTable {
     tryGetAlias(key: string): string;
 }
 
-export class AliasesTable implements IAliasesTable {
-    constructor(private table: { [id: string]: string; }) { }
-
+export class AliasesTable extends Dictionary<string> implements IAliasesTable {
     tryGetAlias(key: string): string {
-        return this.table[key] ?? key;
+        return this.tryGetValue(key, key);
     }
 }

@@ -1,17 +1,13 @@
+import { Dictionary } from "./dictionary";
+
 export type Icon = string;
 
 export interface IIconTable {
-    missingIcon: Icon;
-
     tryGetIcon(key: string): Icon;
 }
 
-export class IconTable implements IIconTable {
-    constructor(
-        private readonly table: { [id: string]: Icon; } = {},
-        public missingIcon: string = "❔") { }
-
+export class IconTable extends Dictionary<Icon> implements IIconTable {
     tryGetIcon(key: string): Icon {
-        return this.table[key] ?? this.missingIcon;
+        return this.tryGetValue(key, "❔");
     }
 }

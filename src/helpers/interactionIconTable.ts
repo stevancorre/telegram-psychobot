@@ -7,4 +7,4 @@ export const interactionIconTable: IIconTable = new IconTable({
     "Low Risk & Decrease": "⬆️",
     "Low Risk & No Synergy": "⏺",
     "Low Risk & Synergy": "⬇️"
-}, "❔");
+});

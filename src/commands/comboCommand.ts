@@ -1,7 +1,7 @@
 import rp from "request-promise";
+import { Dictionary, IDictionary } from "../helpers/dictionary";
 import { Icon } from "../helpers/iconTable";
 import { interactionIconTable } from "../helpers/interactionIconTable";
-import { IIteratableTable, IteratableTable } from "../helpers/iteratableTable";
 import { prettySubstanceNamesAliasTable } from "../helpers/prettySubstanceNamesAliasTable";
 
 import { substanceAliasesTable } from "../helpers/substanceAliasesTable";
@@ -23,19 +23,31 @@ export const executeComboCommandAsync: CommandCallback = async (context: IComman
     rp(requestUrl.href)
         .then(async response => {
             if (response.err === true) {
-                await context.replyMessageAsync(`Error fetching combos from TripSit: ${response.data.msg}`, "Markdown");
+                await context.replyMessageAsync(`Error fetching combos from TripSit: <b>${response.data.msg}</b>`, "HTML");
                 return;
             }
 
             const responseData = JSON.parse(response).data[0];
 
             const rawCombos = responseData.combos;
-            const combos: IIteratableTable = new IteratableTable();
+            if(!rawCombos) {
+                await context.replyMessageAsync(`Error getting <b>${substanceName}</b> combos from TripSit API`, "HTML");
+                return;
+            }
+
+            const combos: IDictionary<string[]> = new Dictionary<string[]>();
 
             for (const substanceName in rawCombos) {
                 if (rawCombos.hasOwnProperty(substanceName)) {
                     const prettySubstanceName: string = prettySubstanceNamesAliasTable.tryGetAlias(substanceName);
-                    combos.add(rawCombos[substanceName].status, prettySubstanceName);
+                    const status: string = rawCombos[substanceName].status;
+                    const substances: string[] | undefined = combos.getValue(status);
+
+                    if (!substances) {
+                        combos.add(status, [prettySubstanceName]);
+                    } else {
+                        substances.push(prettySubstanceName);
+                    }
                 }
             }
 
@@ -43,7 +55,7 @@ export const executeComboCommandAsync: CommandCallback = async (context: IComman
         })
         .catch(async error => {
             console.log(error);
-            await context.replyMessageAsync(`Error getting **${substanceName}** combos from TripSit API`, "Markdown");
+            await context.replyMessageAsync(`Error getting <b>${substanceName}</b> combos from TripSit API`, "HTML");
         })
 
 }
@@ -56,13 +68,13 @@ export const executeHelpComboCommandAsync: CommandCallback = async (context: ICo
     await context.replyMessageAsync(messageBuilder.getContent(), "Markdown");
 }
 
-function buildSubstanceCombosMessage(substanceName: string, combos: IIteratableTable): string {
+function buildSubstanceCombosMessage(substanceName: string, combos: IDictionary<string[]>): string {
     const messageBuilder: IMessageBuilder = new MessageBuilder();
     messageBuilder.appendTitle(`${substanceName} combo information`);
 
     const order: string[] = ["Dangerous", "Unsafe", "Caution", "Low Risk & Decrease", "Low Risk & No Synergy", "Low Risk & Synergy"];
     for (const key of order) {
-        const substances: string[] | null | undefined = combos.tryGetValues(key);
+        const substances: string[] | null | undefined = combos.getValue(key);
         if (!substances) { continue; }
 
         const icon: Icon = interactionIconTable.tryGetIcon(key);

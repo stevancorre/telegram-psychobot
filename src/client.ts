@@ -19,10 +19,10 @@ export class TelegramClient extends TelegramBot implements ITelegramClient {
         this.registerCommand(/^\/help/i, executeHelpCommandAsync);
         this.registerCommand(/^\/ping/i, executePingCommandAsync);
         this.registerCommand(/^\/breathe/i, executeBreatheCommandAsync);
-        this.registerCommand(/^\/info/i, executeHelpInfoCommandAsync)
+        this.registerCommand(/^\/info$/i, executeHelpInfoCommandAsync)
         this.registerCommand(/^\/info (.*)/i, executeInfoCommandAsync);
-        this.registerCommand(/^\/combos/i, executeHelpComboCommandAsync);
-        this.registerCommand(/^\/combos (.*)/i, executeComboCommandAsync);
+        this.registerCommand(/^\/combos$/i, executeHelpComboCommandAsync);
+        this.registerCommand(/^\/combos (.*)$/i, executeComboCommandAsync);
 
         this.getMe().then((user: TelegramBot.User) => {
             console.log(`[CONNECTED AS @${user.username}]`);
