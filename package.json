@@ -1,7 +1,7 @@
 {
-  "name": "parlons-conso-bot",
+  "name": "telegram-psychobot",
   "version": "1.0.0",
-  "description": "Bot Telegram pour le groupe Parlons Conso (https://t.me/parlons_conso)",
+  "description": "Telegram bot that give you informations about psychoactive substances",
   "main": "src/main.ts",
   "scripts": {
     "start:dev": "nodemon",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/stevancorre/parlons-conso-bot.git"
+    "url": "git+https://github.com/stevancorre/telegram-psychobot.git"
   },
   "keywords": [
     "Bot",
@@ -18,15 +18,17 @@
     "NPM",
     "Node",
     "TypeScript",
-    "Parlons",
-    "Conso"
+    "Psychoactive",
+    "Dosebot",
+    "Psybot",
+    "Drug"
   ],
   "author": "Stévan Corre <stevancorre@protonmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/stevancorre/parlons-conso-bot/issues"
+    "url": "https://github.com/stevancorre/telegram-psychobot/issues"
   },
-  "homepage": "https://github.com/stevancorre/parlons-conso-bot#readme",
+  "homepage": "https://github.com/stevancorre/telegram-psychobot#readme",
   "devDependencies": {
     "@types/node": "^17.0.14",
     "@types/node-telegram-bot-api": "^0.53.6",

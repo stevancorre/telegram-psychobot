@@ -1,6 +1,7 @@
-# Parlons Conso Bot
+# Telegram PsychoBot
 
-This bot is a Telegram bot made for the group [Parlons Conso](https://t.me/parlons_conso), an anonymous discussion group made by and for consumers of psychoactive substances.
+This bot is a Telegram bot originally made for the group [Parlons Conso](https://t.me/parlons_conso), a french anonymous discussion group made by and for consumers of psychoactive substances. <br>
+It is now meant to be used in a larger context.
 
 This project is based on the [Dosebot Discord Bot](https://github.com/dosebotredux/DosebotRedux).
 
