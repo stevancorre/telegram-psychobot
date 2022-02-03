@@ -1,6 +1,7 @@
 export interface IStringBuilder {
     append(content: string): IStringBuilder;
     appendLine(content: string): IStringBuilder;
+    appendLines(lines: string[]): IStringBuilder;
     appendNewLines(count: number): IStringBuilder;
     appendInTags(content: string, ...tags: string[]): IStringBuilder;
     appendLineInTags(content: string, ...tags: string[]): IStringBuilder;
@@ -18,6 +19,10 @@ export class StringBuilder implements IStringBuilder {
 
     public appendLine(content: string): IStringBuilder {
         return this.append(content).append("\n");
+    }
+
+    public appendLines(lines: string[]): IStringBuilder {
+        return this.appendLine(lines.join("\n"));
     }
 
     public appendNewLines(count: number): IStringBuilder {
