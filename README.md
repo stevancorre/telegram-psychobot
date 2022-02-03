@@ -7,6 +7,19 @@ This project is based on the [Dosebot Discord Bot](https://github.com/dosebotred
 
 ## Todo
 
+- Commands
+    - [x] Ping
+    - [x] Breathe
+    - [x] Info
+    - [ ] Combos
+    - [ ] Ketamine calc
+    - [ ] DXM calc
+    - [ ] Mushroom calc
+    - [ ] Psychedelics tolerance calc
+    - [ ] Effects
+    - [ ] Effect info
+    - [ ] Help
+
 ## Quick start
 
 If you want to host it, start by grabbing a bot token [here](https://core.telegram.org/api), it should looks like `123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11`. <br>
