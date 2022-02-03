@@ -40,6 +40,14 @@ export const executeInfoCommandAsync: CommandCallback = async (context: ICommand
     }
 }
 
+export const executeHelpInfoCommandAsync: CommandCallback = async (context: ICommandContext): Promise<void> => {
+    const messageBuilder: IMessageBuilder = new MessageBuilder();
+    messageBuilder.appendLine("Usage: `/info <drug>`");
+    messageBuilder.appendLine("Example: `/info ketamine`");
+
+    await context.replyMessageAsync(messageBuilder.getContent(), "Markdown");
+}
+
 function buildSubstanceInfoMessage(substance: ISubstance): string {
     const messageBuilder: IMessageBuilder = new MessageBuilder();
     messageBuilder.appendTitle(`<a href="${substance.url}">${substance.name} drug information</a>`);

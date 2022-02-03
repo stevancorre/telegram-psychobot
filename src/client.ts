@@ -3,7 +3,8 @@ import { CommandCallback, ICommandContext, CommandContext } from "./commands/com
 
 import { executePingCommandAsync } from "./commands/pingCommand";
 import { executeBreatheCommandAsync } from "./commands/breatheCommand";
-import { executeInfoCommandAsync } from "./commands/infoCommand";
+import { executeHelpInfoCommandAsync, executeInfoCommandAsync } from "./commands/infoCommand";
+import { executeHelpCommandAsync } from "./commands/helpCommand";
 
 export interface ITelegramClient { }
 
@@ -14,8 +15,10 @@ export class TelegramClient extends TelegramBot implements ITelegramClient {
         });
 
         // commands
+        this.registerCommand(/^\/help/i, executeHelpCommandAsync);
         this.registerCommand(/^\/ping/i, executePingCommandAsync);
         this.registerCommand(/^\/breathe/i, executeBreatheCommandAsync);
+        this.registerCommand(/^\/info/i, executeHelpInfoCommandAsync)
         this.registerCommand(/^\/info (.*)/i, executeInfoCommandAsync);
 
         this.getMe().then((user: TelegramBot.User) => {
