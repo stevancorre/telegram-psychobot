@@ -11,7 +11,7 @@ This project is based on the [Dosebot Discord Bot](https://github.com/dosebotred
     - [x] Ping
     - [x] Breathe
     - [x] Info
-    - [ ] Combos
+    - [x] Combos
     - [ ] Ketamine calc
     - [ ] DXM calc
     - [ ] Mushroom calc
