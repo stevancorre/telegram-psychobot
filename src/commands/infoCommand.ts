@@ -103,9 +103,9 @@ function buildSubstanceInfoMessage(substance: ISubstance): string {
 
     // Tolerance
     const tolerance: IMessageCategoryBuilder = new MessageCategoryBuilder("📈 Tolerance", "tolerance");
-    tolerance.appendField("Zero", substance.tolerance?.zero);
-    tolerance.appendField("Half", substance.tolerance?.half);
     tolerance.appendField("Full", substance.tolerance?.full);
+    tolerance.appendField("Half", substance.tolerance?.half);
+    tolerance.appendField("Baseline", substance.tolerance?.zero);
     tolerance.appendNewLines(1);
 
     // Addiction potential
