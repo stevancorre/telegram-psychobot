@@ -1,4 +1,4 @@
-import { ITelegramClient, TelegramClient } from "./client";
+import { TelegramClient } from "./client";
 
 require("dotenv").config();
 
@@ -8,4 +8,4 @@ if (token === undefined) {
     process.exit(1);
 }
 
-const client: ITelegramClient = new TelegramClient(token);
+new TelegramClient(token);

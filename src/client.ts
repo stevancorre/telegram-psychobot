@@ -1,4 +1,5 @@
 import TelegramBot from "node-telegram-bot-api";
+
 import { ICommandContext, CommandContext, CommandCallback } from "./commands/command";
 
 import { executePingCommandAsync } from "./commands/pingCommand";
@@ -7,9 +8,7 @@ import { executeHelpInfoCommandAsync, executeInfoCommandAsync } from "./commands
 import { executeHelpCommandAsync } from "./commands/helpCommand";
 import { executeCombosCommandAsync, executeHelpCombosCommandAsync } from "./commands/combosCommand";
 
-export interface ITelegramClient { }
-
-export class TelegramClient extends TelegramBot implements ITelegramClient {
+export class TelegramClient extends TelegramBot {
     public constructor(token: string) {
         super(token, {
             polling: true
