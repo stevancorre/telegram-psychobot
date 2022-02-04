@@ -99,6 +99,7 @@ export const executeHelpCombosCommandAsync: CommandCallback = async (context: IC
  */
 function buildSubstanceCombosMessage(substanceName: string, combos: IDictionary<string[]>): string {
     const messageBuilder: IMessageBuilder = new MessageBuilder();
+    messageBuilder.setCategoriesSpacing(1);
     messageBuilder.appendTitle(`${substanceName} combo information`);
 
     // display data in a certain order so it's more readable and understandable
@@ -109,7 +110,7 @@ function buildSubstanceCombosMessage(substanceName: string, combos: IDictionary<
         if (!substances) { continue; }
 
         const icon: string = interactionIcons.tryGetValue(key, "❔");
-        const categoryBuilder: IMessageCategoryBuilder = new MessageCategoryBuilder(`${icon} ${key}`, "");
+        const categoryBuilder: IMessageCategoryBuilder = new MessageCategoryBuilder(icon, key);
 
         categoryBuilder.appendLines(...substances.map(x => `- ${x}`));
 
