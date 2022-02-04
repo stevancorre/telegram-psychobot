@@ -51,3 +51,10 @@ export function formatMinMax(value: IMinMax | number | null | undefined, units: 
 export function capitalize(value: string): string {
     return value[0].toUpperCase() + value.slice(1);
 }
+
+export function formatExternalLink(title: string, url: string): string {
+    title = capitalize(title.replace(/\(.*\)/gm, "").trim());
+    const websiteNameAndDomain: string = url.replace(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)(.*)$/igm, "$1").trim().toLowerCase();
+
+    return `${title}: <a href="${url}">${websiteNameAndDomain}</a>`
+}

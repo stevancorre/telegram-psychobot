@@ -17,7 +17,7 @@ This project is based on the [Dosebot Discord Bot](https://github.com/dosebotred
     - [ ] Mushroom calc
     - [ ] Psychedelics tolerance calc
     - [x] Effects
-    - [ ] Effect info
+    - [x] Effect info
     - [ ] Help
 
 ## Quick start
