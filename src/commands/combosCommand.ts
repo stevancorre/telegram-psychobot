@@ -1,26 +1,23 @@
 import rp from "request-promise";
-import { Dictionary, IDictionary } from "../helpers/dictionary";
-import { Icon } from "../helpers/iconTable";
-import { interactionIconTable } from "../helpers/interactionIconTable";
-import { prettySubstanceNamesAliasTable } from "../helpers/prettySubstanceNamesAliasTable";
 
-import { substanceAliasesTable } from "../helpers/substanceAliasesTable";
-import { IMessageBuilder, MessageBuilder } from "../messages/messageBuilder";
-import { IMessageCategoryBuilder, MessageCategoryBuilder } from "../messages/messageCategoryBuilder";
-import { CommandCallback, ICommandContext } from "./command";
+import { IDictionary, Dictionary } from "../helpers/dictionary";
+import { IMessageBuilder, MessageBuilder } from "../helpers/messageBuilder";
+import { IMessageCategoryBuilder, MessageCategoryBuilder } from "../helpers/messageCategoryBuilder";
+import { ICommandContext, CommandCallback } from "./command";
+
+import { interactionIcons, prettySubstanceNames, substanceAliases } from "../tables/tables";
 
 const TRIPSIT_API_ENDPOINT: string = "http://tripbot.tripsit.me/api/tripsit/getDrug";
 
-export const executeComboCommandAsync: CommandCallback = async (context: ICommandContext): Promise<void> => {
+export const executeCombosCommandAsync: CommandCallback = async (context: ICommandContext): Promise<void> => {
     if (!context.match) {
         return;
     }
 
-    const substanceName: string = substanceAliasesTable.tryGetAlias(context.match[1]).replace(" ", "");
-    const requestUrl: URL = new URL(TRIPSIT_API_ENDPOINT);
-    requestUrl.searchParams.append("name", substanceName);
+    const substanceName: string = substanceAliases.tryGetValue(context.match[1], context.match[1]).replace(" ", "");
+    const requestUri: string = `${TRIPSIT_API_ENDPOINT}?name=${substanceName}`;
 
-    rp(requestUrl.href)
+    rp(requestUri)
         .then(async response => {
             if (response.err === true) {
                 await context.replyMessageAsync(`Error fetching combos from TripSit: <b>${response.data.msg}</b>`, "HTML");
@@ -30,7 +27,7 @@ export const executeComboCommandAsync: CommandCallback = async (context: IComman
             const responseData = JSON.parse(response).data[0];
 
             const rawCombos = responseData.combos;
-            if(!rawCombos) {
+            if (!rawCombos) {
                 await context.replyMessageAsync(`Error getting <b>${substanceName}</b> combos from TripSit API`, "HTML");
                 return;
             }
@@ -39,7 +36,7 @@ export const executeComboCommandAsync: CommandCallback = async (context: IComman
 
             for (const substanceName in rawCombos) {
                 if (rawCombos.hasOwnProperty(substanceName)) {
-                    const prettySubstanceName: string = prettySubstanceNamesAliasTable.tryGetAlias(substanceName);
+                    const prettySubstanceName: string = prettySubstanceNames.tryGetValue(substanceName, substanceName);
                     const status: string = rawCombos[substanceName].status;
                     const substances: string[] | undefined = combos.getValue(status);
 
@@ -56,11 +53,10 @@ export const executeComboCommandAsync: CommandCallback = async (context: IComman
         .catch(async error => {
             console.log(error);
             await context.replyMessageAsync(`Error getting <b>${substanceName}</b> combos from TripSit API`, "HTML");
-        })
-
+        });
 }
 
-export const executeHelpComboCommandAsync: CommandCallback = async (context: ICommandContext): Promise<void> => {
+export const executeHelpCombosCommandAsync: CommandCallback = async (context: ICommandContext): Promise<void> => {
     const messageBuilder: IMessageBuilder = new MessageBuilder();
     messageBuilder.appendLine("Usage: `/combos <drug>`");
     messageBuilder.appendLine("Example: `/combos ketamine`");
@@ -77,7 +73,7 @@ function buildSubstanceCombosMessage(substanceName: string, combos: IDictionary<
         const substances: string[] | null | undefined = combos.getValue(key);
         if (!substances) { continue; }
 
-        const icon: Icon = interactionIconTable.tryGetIcon(key);
+        const icon: string = interactionIcons.tryGetValue(key, "❔");
         const categoryBuilder: IMessageCategoryBuilder = new MessageCategoryBuilder(`${icon} ${key}`, "");
 
         categoryBuilder.appendLines(substances.map(x => `- ${x}`));

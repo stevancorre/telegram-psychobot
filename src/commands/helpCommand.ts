@@ -1,5 +1,5 @@
-import { IMessageBuilder, MessageBuilder } from "../messages/messageBuilder";
-import { CommandCallback, ICommandContext } from "./command";
+import { ICommandContext, CommandCallback } from "./command";
+import { IMessageBuilder, MessageBuilder } from "../helpers/messageBuilder";
 
 export const executeHelpCommandAsync: CommandCallback = async (context: ICommandContext): Promise<void> => {
     const messageBuilder: IMessageBuilder = new MessageBuilder();

@@ -1,6 +1,4 @@
-import { AliasesTable, IAliasesTable } from "./aliasesTable";
-
-export const prettySubstanceNamesAliasTable: IAliasesTable = new AliasesTable({
+{
     "lsd": "LSD",
     "mushrooms": "Mushrooms",
     "dmt": "DMT",
@@ -29,4 +27,4 @@ export const prettySubstanceNamesAliasTable: IAliasesTable = new AliasesTable({
     "ssris": "SSRIs",
     "pcp": "PCP",
     "amt": "AMT"
-});
+}

@@ -1,14 +1,14 @@
 import { IMinMax } from "../types/IMinMax";
-import { IAliasesTable } from "./aliasesTable";
+import { IDictionary } from "./dictionary";
 import { IStringBuilder, StringBuilder } from "./stringBuilder";
 
-export function formatMinMax(value: IMinMax | number | null | undefined, units: string | null | undefined, unitAliases?: IAliasesTable): string {
+export function formatMinMax(value: IMinMax | number | null | undefined, units: string | null | undefined, unitAliases?: IDictionary<string>): string {
     if (!value || !units) {
         return "";
     }
 
     if (unitAliases) {
-        units = unitAliases.tryGetAlias(units);
+        units = unitAliases.tryGetValue(units, units);
     }
 
     if (typeof value === "number") {

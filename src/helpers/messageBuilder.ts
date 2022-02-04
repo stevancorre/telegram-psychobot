@@ -1,4 +1,4 @@
-import { IStringBuilder, StringBuilder } from "../helpers/stringBuilder";
+import { IStringBuilder, StringBuilder } from "./stringBuilder";
 import { IMessageCategoryBuilder } from "./messageCategoryBuilder";
 
 export interface IMessageBuilder extends IStringBuilder {
