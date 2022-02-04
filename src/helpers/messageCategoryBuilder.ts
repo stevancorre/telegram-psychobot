@@ -15,22 +15,21 @@ export interface IMessageCategoryBuilder extends IStringBuilder {
     appendField(key: string, value: string | null | undefined): IMessageCategoryBuilder;
 }
 
-// TODO: remove useless features and refactor a little bit
 /**
  * Message builder implementation
  */
 export class MessageCategoryBuilder extends StringBuilder implements IMessageCategoryBuilder {
-    private readonly titleLength: number;
+    private startLength: number;
 
-    public constructor(title: string, private qualifiedName: string) {
+    public constructor(icon: string, private name: string) {
         super();
 
-        this.appendLineInTags(title, "b", "u");
-        this.titleLength = super.getContent().length;
+        this.appendLineInTags(`${icon} ${name}`, "b", "u");
+        this.startLength = super.getContent().length;
     }
 
     public appendField(key: string, value: string | null | undefined): IMessageCategoryBuilder {
-        if (!value || value.length === 0) { return this; }
+        if (!value) { return this; }
 
         this.appendInTags(key, "b");
         this.appendLine(`: ${value}`);
@@ -40,12 +39,14 @@ export class MessageCategoryBuilder extends StringBuilder implements IMessageCat
 
     public override getContent(): string {
         // if the content's length is the same as the title length, then no more content was added,
-        // so we display a special message
-        if (super.getContent().length === this.titleLength) {
-            this.appendLineInTags(`No ${this.qualifiedName} information`, "i");
+        // so we display a special message        
+        if (super.getContent().length === this.startLength) {
+            this.appendLineInTags(`No ${this.name.toLocaleLowerCase()} information`, "i");
             this.appendNewLines(1);
         }
 
-        return super.getContent();
+        const content: string = super.getContent();
+        this.startLength = content.length;
+        return content;
     }
 }

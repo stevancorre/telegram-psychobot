@@ -15,6 +15,15 @@ export interface IMessageBuilder extends IStringBuilder {
     appendTitle(title: string): IMessageBuilder;
 
     /**
+     * Set the count of spaces between two categories
+     * 
+     * @param count How many space we want to have
+     * 
+     * @returns Itself
+     */
+    setCategoriesSpacing(count: number): IMessageBuilder;
+
+    /**
      * Appends a category to the message
      * 
      * @param category A category builder
@@ -28,6 +37,14 @@ export interface IMessageBuilder extends IStringBuilder {
  * Message builder implementation
  */
 export class MessageBuilder extends StringBuilder implements IMessageBuilder {
+    private categoriesSpaceCount: number = 2;
+    
+    public setCategoriesSpacing(count: number) {
+        this.categoriesSpaceCount = count;
+        
+        return this;
+    }
+
     public appendTitle(title: string): IMessageBuilder {
         this.appendLineInTags(title, "b");
         this.appendNewLines(1);
@@ -36,8 +53,12 @@ export class MessageBuilder extends StringBuilder implements IMessageBuilder {
     }
 
     public appendCategory(category: IMessageCategoryBuilder): IMessageBuilder {
-        this.appendLine(category.getContent());
-
+        let content: string = category.getContent();
+        while(!content.endsWith("\n".repeat(this.categoriesSpaceCount))) {
+            content += "\n";
+        }
+      
+        this.appendLine(content);
         return this;
     }
 }
