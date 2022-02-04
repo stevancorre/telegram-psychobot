@@ -11,19 +11,26 @@ import { durationAliases, substanceAliases } from "../tables/tables";
 
 const PW_API_ENDPOINT: string = "https://api.psychonautwiki.org/";
 
+/**
+ * Execute the `/help` command: shows a little presentation message and a list of all commands
+ * 
+ * @param context The context in which the command is executed
+ */
 export const executeInfoCommandAsync: CommandCallback = async (context: ICommandContext): Promise<void> => {
     if (!context.match) {
         return;
     }
 
+    // search for an alias and build the request uri
     const substanceName: string = substanceAliases.tryGetValue(context.match[1], context.match[1]).replace(" ", "");
     const query: string = getPwInfoQuery(substanceName);
-
     const encodedQuery = encodeURIComponent(query);
     const requestUri: string = `${PW_API_ENDPOINT}?query=${encodedQuery}`;
 
+    // execute the request
     rp(requestUri)
         .then(async response => {
+            // if the response is empty, something went wrong
             if (!response.data || !response.data.substances) {
                 await context.replyMessageAsync(`Error: No API data available for <b>${context.match![1]}</b>`, "HTML");
                 return;
@@ -33,11 +40,16 @@ export const executeInfoCommandAsync: CommandCallback = async (context: ICommand
             await context.replyMessageAsync(buildSubstanceInfoMessage(substance), "HTML");
         })
         .catch(async error => {
-            //console.log(error);
+            console.log(error);
             await context.replyMessageAsync(`Error: No API data available for <b>${context.match![1]}</b>`, "HTML");
         });
 }
 
+/**
+ * Displays the help for the `/info <substance>` command. It get invoked if the user forget the `<substance>` argument
+ * 
+ * @param context The context in which the command is executed
+ */
 export const executeHelpInfoCommandAsync: CommandCallback = async (context: ICommandContext): Promise<void> => {
     const messageBuilder: IMessageBuilder = new MessageBuilder();
     messageBuilder.appendLine("Usage: `/info <drug>`");
@@ -46,10 +58,17 @@ export const executeHelpInfoCommandAsync: CommandCallback = async (context: ICom
     await context.replyMessageAsync(messageBuilder.getContent(), "Markdown");
 }
 
+/**
+ * Builds the message content used to display combos data for any substance
+ * 
+ * @param substance The substance we have to display
+ * @returns The raw message content (HTML)
+ */
 function buildSubstanceInfoMessage(substance: ISubstance): string {
     const messageBuilder: IMessageBuilder = new MessageBuilder();
     messageBuilder.appendTitle(`<a href="${substance.url}">${substance.name} drug information</a>`);
 
+    // Dosages
     const dosages: IMessageCategoryBuilder = new MessageCategoryBuilder("⚖️ Dosages", "dosage");
     for (const roa of substance.roas) {
         if (!roa || !roa.dose || !roa.dose.units) { continue; }
@@ -65,6 +84,7 @@ function buildSubstanceInfoMessage(substance: ISubstance): string {
         dosages.appendNewLines(1);
     }
 
+    // Durations
     const durations: IMessageCategoryBuilder = new MessageCategoryBuilder("🕐 Duration", "duration");
     for (const roa of substance.roas) {
         if (!roa || !roa.duration) { continue; }
@@ -81,17 +101,20 @@ function buildSubstanceInfoMessage(substance: ISubstance): string {
         durations.appendNewLines(1);
     }
 
+    // Tolerance
     const tolerance: IMessageCategoryBuilder = new MessageCategoryBuilder("📈 Tolerance", "tolerance");
     tolerance.appendField("Zero", substance.tolerance?.zero);
     tolerance.appendField("Half", substance.tolerance?.half);
     tolerance.appendField("Full", substance.tolerance?.full);
     tolerance.appendNewLines(1);
 
+    // Addiction potential
     const addictionPotential: IMessageCategoryBuilder = new MessageCategoryBuilder("⚠️ Addiction potential", "addiction potential");
     if (substance.addictionPotential) {
         addictionPotential.appendLine(capitalize(substance.addictionPotential));
     }
 
+    // Append all categories one by one
     messageBuilder.appendCategory(dosages);
     messageBuilder.appendCategory(durations);
     messageBuilder.appendCategory(tolerance);

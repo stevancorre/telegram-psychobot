@@ -1,6 +1,13 @@
 import { ICommandContext, CommandCallback } from "./command";
 import { IMessageBuilder, MessageBuilder } from "../helpers/messageBuilder";
 
+// TODO: auto help message
+
+/**
+ * Execute the `/help` command: shows a little presentation message and a list of all commands
+ * 
+ * @param context The context in which the command is executed
+ */
 export const executeHelpCommandAsync: CommandCallback = async (context: ICommandContext): Promise<void> => {
     const messageBuilder: IMessageBuilder = new MessageBuilder();
     messageBuilder.appendTitle("Help");

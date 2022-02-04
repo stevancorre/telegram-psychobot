@@ -1,19 +1,21 @@
+/**
+ * Builds the GraphQL query for a specific substance name
+ * 
+ * @param substanceName The target substance name. It has be formatted first (e.g no alias)
+ * 
+ * @returns The corresponding GraphQL query
+ */
 export function getPwInfoQuery(substanceName: string): string {
   return `{
     substances(query: "${substanceName}") {
       name
       url
       addictionPotential
-      class {
-        chemical
-        psychoactive
-      }
       tolerance {
         full
         half
         zero
       }
-      # routes of administration
       roas {
         name
         dose {
@@ -32,9 +34,6 @@ export function getPwInfoQuery(substanceName: string): string {
           onset { min max units }
           peak { min max units }
           total { min max units }
-        }
-        bioavailability {
-          min max
         }
       }
     }

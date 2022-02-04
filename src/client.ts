@@ -8,6 +8,9 @@ import { executeHelpInfoCommandAsync, executeInfoCommandAsync } from "./commands
 import { executeHelpCommandAsync } from "./commands/helpCommand";
 import { executeCombosCommandAsync, executeHelpCombosCommandAsync } from "./commands/combosCommand";
 
+/**
+ * Custom telegram client implementation with a command handler
+ */
 export class TelegramClient extends TelegramBot {
     public constructor(token: string) {
         super(token, {
@@ -23,15 +26,23 @@ export class TelegramClient extends TelegramBot {
         this.registerCommand(/^\/combos$/i, executeHelpCombosCommandAsync);
         this.registerCommand(/^\/combos (.*)$/i, executeCombosCommandAsync);
 
+        // log the user tag in the standard output
         this.getMe().then((user: TelegramBot.User) => {
             console.log(`[CONNECTED AS @${user.username}]`);
         });
     }
 
-    private registerCommand(regexp: RegExp, command: CommandCallback) {
+    /**
+     * Binds a command callback to an `onText` event
+     * 
+     * @param regexp The regular expression used to parse the user input
+     * @param callback The command callback
+     */
+    private registerCommand(regexp: RegExp, callback: CommandCallback) {
+        // bind the command callback to the right `onText` event
         this.onText(regexp, async (message: TelegramBot.Message, match: RegExpExecArray | null) => {
             const context: ICommandContext = new CommandContext(this, message, match);
-            await command(context);
+            await callback(context);
         });
     }
 }

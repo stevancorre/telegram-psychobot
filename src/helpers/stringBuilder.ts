@@ -1,10 +1,68 @@
+/**
+ * Interface for a string builder
+ */
 export interface IStringBuilder {
+    /**
+     * Appends a string to the content
+     * 
+     * @param content The content to append
+     *
+     * @returns Itself 
+     */
     append(content: string): IStringBuilder;
+
+    /**
+     * Appends a new-line-terminated string to the content 
+     * 
+     * @param content The content to append
+     *
+     * @returns Itself 
+     */
     appendLine(content: string): IStringBuilder;
-    appendLines(lines: string[]): IStringBuilder;
+
+    /**
+     * Appends new-line-terminated strings to the content
+     * 
+     * @param lines The lines to append
+     *
+     * @returns Itself 
+     */
+    appendLines(...lines: string[]): IStringBuilder;
+
+    /**
+     * Appends `count` new lines to the content
+     * 
+     * @param count The count of new lines to append
+     *
+     * @returns Itself 
+     */
     appendNewLines(count: number): IStringBuilder;
+
+    /**
+     * Appends a string surrounded by `tags` (ex: `<b>content</b>`)
+     * 
+     * @param content The inner content to append
+     * @param tags The tags
+     *
+     * @returns Itself 
+     */
     appendInTags(content: string, ...tags: string[]): IStringBuilder;
+
+    /**
+     * Appends a new-line-terminated string surrounded by `tags` (ex: `<b>content</b>\n`)
+     * 
+     * @param content The inner content to append
+     * @param tags The tags
+     *
+     * @returns Itself 
+     */
     appendLineInTags(content: string, ...tags: string[]): IStringBuilder;
+
+    /**
+     * Gets the builder's the content
+     * 
+     * @returns The builder's content 
+     */
 
     getContent(): string;
 }
@@ -21,7 +79,7 @@ export class StringBuilder implements IStringBuilder {
         return this.append(content).append("\n");
     }
 
-    public appendLines(lines: string[]): IStringBuilder {
+    public appendLines(...lines: string[]): IStringBuilder {
         return this.appendLine(lines.join("\n"));
     }
 

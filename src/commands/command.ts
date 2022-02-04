@@ -1,15 +1,44 @@
 import TelegramBot from "node-telegram-bot-api";
 import { TelegramClient } from "../client";
 
+/**
+ * Interface for a context in which a command is executed
+ */
 export interface ICommandContext {
+    /**
+     * The current client
+     */
     client: TelegramClient;
+
+    /**
+     * The current message
+     */
     message: TelegramBot.Message;
+
+    /**
+     * The message match
+     */
     match: RegExpExecArray | null;
 
+    /**
+     * Replies with a video or gif
+     * 
+     * @param video The video uri
+     */
     replyVideoAsync(video: string): Promise<TelegramBot.Message>;
+
+    /**
+     * Replies with a message
+     * 
+     * @param text The message content
+     * @param parseMode The message parse mode
+     */
     replyMessageAsync(text: string, parseMode: TelegramBot.ParseMode): Promise<TelegramBot.Message>
 }
 
+/**
+ * The command context implementation
+ */
 export class CommandContext implements ICommandContext {
     public constructor(
         public client: TelegramClient,
@@ -31,4 +60,7 @@ export class CommandContext implements ICommandContext {
     }
 }
 
+/**
+ * Callback type for a command
+ */
 export type CommandCallback = (context: ICommandContext) => Promise<void>;
