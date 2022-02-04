@@ -1,3 +1,5 @@
+// TODO: handle categories (e.g `Category:Mushroom`)
+
 import rp from "request-promise";
 
 import { ICommandContext, CommandCallback } from "./command";
@@ -29,9 +31,11 @@ export const executeInfoCommandAsync: CommandCallback = async (context: ICommand
 
     // execute the request
     rp(requestUri)
-        .then(async response => {
+        .then(async rawResponse => {
+            const response: any = JSON.parse(rawResponse);
+
             // if the response is empty, something went wrong
-            if (!response.data || !response.data.substances) {
+            if (!response.data || !response.data.substances) {                
                 await context.replyMessageAsync(`Error: No API data available for <b>${context.match![1]}</b>`, "HTML");
                 return;
             }
@@ -66,10 +70,11 @@ export const executeHelpInfoCommandAsync: CommandCallback = async (context: ICom
  */
 function buildSubstanceInfoMessage(substance: ISubstance): string {
     const messageBuilder: IMessageBuilder = new MessageBuilder();
+    messageBuilder.setCategoriesSpacing(2);
     messageBuilder.appendTitle(`<a href="${substance.url}">${substance.name} drug information</a>`);
 
     // Dosages
-    const dosages: IMessageCategoryBuilder = new MessageCategoryBuilder("⚖️ Dosages", "dosage");
+    const dosages: IMessageCategoryBuilder = new MessageCategoryBuilder("⚖️", "Dosage");
     for (const roa of substance.roas) {
         if (!roa || !roa.dose || !roa.dose.units) { continue; }
 
@@ -85,7 +90,7 @@ function buildSubstanceInfoMessage(substance: ISubstance): string {
     }
 
     // Durations
-    const durations: IMessageCategoryBuilder = new MessageCategoryBuilder("🕐 Duration", "duration");
+    const durations: IMessageCategoryBuilder = new MessageCategoryBuilder("🕐", "Duration");
     for (const roa of substance.roas) {
         if (!roa || !roa.duration) { continue; }
 
@@ -102,14 +107,13 @@ function buildSubstanceInfoMessage(substance: ISubstance): string {
     }
 
     // Tolerance
-    const tolerance: IMessageCategoryBuilder = new MessageCategoryBuilder("📈 Tolerance", "tolerance");
+    const tolerance: IMessageCategoryBuilder = new MessageCategoryBuilder("📈", "Tolerance");
     tolerance.appendField("Full", substance.tolerance?.full);
     tolerance.appendField("Half", substance.tolerance?.half);
     tolerance.appendField("Baseline", substance.tolerance?.zero);
-    tolerance.appendNewLines(1);
 
     // Addiction potential
-    const addictionPotential: IMessageCategoryBuilder = new MessageCategoryBuilder("⚠️ Addiction potential", "addiction potential");
+    const addictionPotential: IMessageCategoryBuilder = new MessageCategoryBuilder("⚠️", "Addiction potential");
     if (substance.addictionPotential) {
         addictionPotential.appendLine(capitalize(substance.addictionPotential));
     }
