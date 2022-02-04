@@ -1,7 +1,7 @@
 import rp from "request-promise";
 
 import { ICommandContext, CommandCallback } from "./command";
-import { ISubstance } from "../types/ISubstance";
+import { ISubstance } from "../types/substance";
 import { IMessageBuilder, MessageBuilder } from "../helpers/messageBuilder";
 import { IMessageCategoryBuilder, MessageCategoryBuilder } from "../helpers/messageCategoryBuilder";
 import { getPwInfoQuery } from "../queries/infoQuery";

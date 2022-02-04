@@ -1,4 +1,4 @@
-import { IMinMax } from "../types/IMinMax";
+import { IMinMax } from "../types/minMax";
 import { IDictionary } from "./dictionary";
 import { IStringBuilder, StringBuilder } from "./stringBuilder";
 

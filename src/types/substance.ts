@@ -1,4 +1,4 @@
-import { IMinMax, IMinMaxUnits } from "./IMinMax";
+import { IMinMax, IMinMaxUnits } from "./minMax";
 
 export interface ISubstanceClass {
   chemical: string[] | null;
