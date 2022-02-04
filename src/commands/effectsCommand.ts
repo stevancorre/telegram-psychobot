@@ -67,7 +67,7 @@ function buildSubstanceEffectsMessage(substanceName: string, substanceEffects: I
 
     const messageBuilder: IMessageBuilder = new MessageBuilder();
     messageBuilder.setCategoriesSpacing(1);
-    messageBuilder.appendTitle(`<a href="${susbtanceEffectsIndexUri}">${substanceName} effect informations</a>`);
+    messageBuilder.appendTitle(`${substanceName} effect informations`, susbtanceEffectsIndexUri);
 
     const effectsList: IMessageCategoryBuilder = new MessageCategoryBuilder("🗒", "Effects (randomly selected)");
     effectsList.appendLines(...substanceEffects.map(x => {

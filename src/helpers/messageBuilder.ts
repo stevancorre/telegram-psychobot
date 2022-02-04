@@ -9,10 +9,11 @@ export interface IMessageBuilder extends IStringBuilder {
      * Appends a title to the message (bold text with a new line)
      * 
      * @param title The title's text (can be HTML)
+     * @param link (Optional) The title's link
      * 
      * @returns Itself
      */
-    appendTitle(title: string): IMessageBuilder;
+    appendTitle(title: string, link?: string): IMessageBuilder;
 
     /**
      * Set the count of spaces between two categories
@@ -45,7 +46,11 @@ export class MessageBuilder extends StringBuilder implements IMessageBuilder {
         return this;
     }
 
-    public appendTitle(title: string): IMessageBuilder {
+    public appendTitle(title: string, link?: string): IMessageBuilder {
+        if(link) {
+            title = `<a href="${link}">${title}</a>`;
+        }
+
         this.appendLineInTags(title, "b");
         this.appendNewLines(1);
 

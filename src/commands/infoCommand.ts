@@ -71,7 +71,7 @@ export const executeHelpInfoCommandAsync: CommandCallback = async (context: ICom
 function buildSubstanceInfoMessage(substance: ISubstance): string {
     const messageBuilder: IMessageBuilder = new MessageBuilder();
     messageBuilder.setCategoriesSpacing(2);
-    messageBuilder.appendTitle(`<a href="${substance.url}">${substance.name} drug information</a>`);
+    messageBuilder.appendTitle(`${substance.name} drug information`, substance.url);
 
     // Dosages
     const dosages: IMessageCategoryBuilder = new MessageCategoryBuilder("⚖️", "Dosage");
