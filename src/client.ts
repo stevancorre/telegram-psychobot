@@ -7,6 +7,7 @@ import { executeBreatheCommandAsync } from "./commands/breatheCommand";
 import { executeHelpInfoCommandAsync, executeInfoCommandAsync } from "./commands/infoCommand";
 import { executeHelpCommandAsync } from "./commands/helpCommand";
 import { executeCombosCommandAsync, executeHelpCombosCommandAsync } from "./commands/combosCommand";
+import { executeEffectsCommandAsync, executeHelpEffectsCommandAsync } from "./commands/effectsCommand";
 
 /**
  * Custom telegram client implementation with a command handler
@@ -25,6 +26,8 @@ export class TelegramClient extends TelegramBot {
         this.registerCommand(/^\/info (.*)/i, executeInfoCommandAsync);
         this.registerCommand(/^\/combos$/i, executeHelpCombosCommandAsync);
         this.registerCommand(/^\/combos (.*)$/i, executeCombosCommandAsync);
+        this.registerCommand(/^\/effects$/i, executeHelpEffectsCommandAsync);
+        this.registerCommand(/^\/effects (.*)$/i, executeEffectsCommandAsync);
 
         // log the user tag in the standard output
         this.getMe().then((user: TelegramBot.User) => {
