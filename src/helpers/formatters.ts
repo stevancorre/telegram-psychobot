@@ -58,3 +58,7 @@ export function formatExternalLink(title: string, url: string): string {
 
     return `${title}: <a href="${url}">${websiteNameAndDomain}</a>`
 }
+
+export function formatInt(n: number) {
+    return n.toFixed(0);
+}

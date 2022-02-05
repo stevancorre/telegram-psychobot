@@ -9,6 +9,7 @@ import { executeHelpCommandAsync } from "./commands/helpCommand";
 import { executeCombosCommandAsync, executeHelpCombosCommandAsync } from "./commands/combosCommand";
 import { executeEffectsCommandAsync, executeHelpEffectsCommandAsync } from "./commands/effectsCommand";
 import { executeEffectInfoCommandAsync, executeHelpEffectEffectInfoCommandAsync } from "./commands/effectInfoCommand";
+import { executeHelpKetamineCalcCommandAsync, executeKetamineCalcCommandAsync } from "./commands/ketamineCalcCommand";
 
 /**
  * Custom telegram client implementation with a command handler
@@ -31,6 +32,9 @@ export class TelegramClient extends TelegramBot {
         this.registerCommand(/^\/effects (.*)$/i, executeEffectsCommandAsync);
         this.registerCommand(/^\/effectInfo$/i, executeHelpEffectEffectInfoCommandAsync);
         this.registerCommand(/^\/effectInfo (.*)$/i, executeEffectInfoCommandAsync);
+        this.registerCommand(/^\/ketaminecalc$/i, executeHelpKetamineCalcCommandAsync);
+        this.registerCommand(/^\/ketaminecalc ([0-9]+)$/i, executeHelpKetamineCalcCommandAsync);
+        this.registerCommand(/^\/ketaminecalc ([0-9]+) (\w+)/i, executeKetamineCalcCommandAsync);
 
         // log the user tag in the standard output
         this.getMe().then((user: TelegramBot.User) => {
