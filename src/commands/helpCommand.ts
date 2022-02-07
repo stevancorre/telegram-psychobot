@@ -1,23 +1,28 @@
-import { ICommandContext, CommandCallback } from "../helpers/command";
+import TelegramBot from "node-telegram-bot-api";
+import { ICommand, ICommandContext } from "../helpers/command";
 import { IMessageBuilder, MessageBuilder } from "../helpers/messageBuilder";
 
-// TODO: auto help message
+export const helpCommand: ICommand = {
+    name: "help",
+    description: "Shows a little presentation message and a list of all commands",
 
-/**
- * Execute the `/help` command: shows a little presentation message and a list of all commands
- * 
- * @param context The context in which the command is executed
- */
-export const executeHelpCommandAsync: CommandCallback = async (context: ICommandContext): Promise<void> => {
+    callback: async (context: ICommandContext): Promise<void> => {
+        await context.replyMessageAsync(buildHelpMessage(), { parse_mode: "HTML" });
+    }
+};
+
+function buildHelpMessage(): string {
     const messageBuilder: IMessageBuilder = new MessageBuilder();
+    messageBuilder.appendNewLines(1);
     messageBuilder.appendTitle("Help");
 
     messageBuilder.appendLine(`Hey! I'm still under construction, but my owner is working hard on implementing new features.`);
     messageBuilder.appendNewLines(1);
 
-    messageBuilder.appendLineInTags("Helpful commands", "b");
-    messageBuilder.appendLine("- /breathe: Sends a GIF to help you breathing");
-    messageBuilder.appendLine("- /info &lt;drug>: Give you informations about a specific drug");
+    messageBuilder.appendLineInTags("Helpful commands:", "b");
+    messageBuilder.appendLine("- /info: Gives you informations about a substance");
+    messageBuilder.appendLine("- /effects: Gives you effects given by a substance");
+    messageBuilder.appendLine("- /combos: Gives you combos for a substance");
 
-    await context.replyMessageAsync(messageBuilder.getContent(), "HTML"); // table tennis emoji
+    return messageBuilder.getContent();
 }
