@@ -1,14 +1,14 @@
 /**
  * Interface for a generic dictionary with basic methods
  */
-export interface IDictionary<T> {
+export interface IDictionary<TKey, TValue> {
     /**
      * Adds a new key-value pair to the dictionary
      * 
      * @param key The unique key
      * @param value The value
      */
-    add(key: string, value: T): void;
+    add(key: TKey, value: TValue): void;
 
     /**
      * Finds the value corresponding to a specific key
@@ -16,7 +16,7 @@ export interface IDictionary<T> {
      * @param key The unique key
      * @returns The value corresponding to the key if it was found. Otherwhise `undefined`
      */
-    getValue(key: string): T | undefined;
+    getValue(key: TKey): TValue | undefined;
 
     /**
      * 
@@ -25,17 +25,17 @@ export interface IDictionary<T> {
      * 
      * @returns The value corresponding to the key if it was found. Otherwhise the default value provided by the user
      */
-    tryGetValue(key: string, defaultValue: T): T;
+    tryGetValue(key: TKey, defaultValue: TValue): TValue;
 }
 
 /**
  * Generic dictionary implementation
  */
-export class Dictionary<T> implements IDictionary<T> {
+export class Dictionary<TKey extends string | number | symbol, TValue> implements IDictionary<TKey, TValue> {
     public constructor(
-        protected readonly source: { [key: string]: T } = {}) { }
+        protected readonly source: { [key in TKey]?: TValue } = {}) { }
 
-    add(key: string, value: T): void {
+    add(key: TKey, value: TValue): void {
         // if we already have a key with a value, throw an error because each key has to be unique
         if (this.source[key] !== undefined) {
             throw `Dictionary already contains a value for key \`${key}\`: \`${value}\``;
@@ -44,15 +44,16 @@ export class Dictionary<T> implements IDictionary<T> {
         this.source[key] = value;
     }
 
-    getValue(key: string): T | undefined {
+    getValue(key: TKey): TValue | undefined {
         return this.source[key];
     }
 
-    tryGetValue(key: string, defaultValue: T): T {
-        if (this.source[key] === undefined) {
+    tryGetValue(key: TKey, defaultValue: TValue): TValue {
+        const value: TValue | undefined = this.source[key];
+        if (value === undefined) {
             return defaultValue;
         }
 
-        return this.source[key];
+        return value;
     }
 }

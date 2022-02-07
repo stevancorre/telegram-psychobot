@@ -1,5 +1,5 @@
 export function getPwEffectsQuery(substanceName: string): string {
-    return `{
+  return `{
         substances(query: "${substanceName}") {
           name
           effects {
@@ -8,4 +8,4 @@ export function getPwEffectsQuery(substanceName: string): string {
           }
         }
       }`;
-    }
+}

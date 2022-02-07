@@ -39,15 +39,15 @@ export interface IMessageBuilder extends IStringBuilder {
  */
 export class MessageBuilder extends StringBuilder implements IMessageBuilder {
     private categoriesSpaceCount: number = 2;
-    
+
     public setCategoriesSpacing(count: number) {
         this.categoriesSpaceCount = count;
-        
+
         return this;
     }
 
     public appendTitle(title: string, link?: string): IMessageBuilder {
-        if(link) {
+        if (link) {
             title = `<a href="${link}">${title}</a>`;
         }
 
@@ -59,10 +59,10 @@ export class MessageBuilder extends StringBuilder implements IMessageBuilder {
 
     public appendCategory(category: IMessageCategoryBuilder): IMessageBuilder {
         let content: string = category.getContent();
-        while(!content.endsWith("\n".repeat(this.categoriesSpaceCount))) {
+        while (!content.endsWith("\n".repeat(this.categoriesSpaceCount))) {
             content += "\n";
         }
-      
+
         this.appendLine(content);
         return this;
     }

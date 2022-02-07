@@ -1,4 +1,4 @@
-import { ICommandContext, CommandCallback } from "./command";
+import { ICommandContext, CommandCallback } from "../helpers/command";
 import { IMessageBuilder, MessageBuilder } from "../helpers/messageBuilder";
 
 // TODO: auto help message

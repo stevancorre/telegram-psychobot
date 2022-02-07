@@ -11,7 +11,7 @@ import { IStringBuilder, StringBuilder } from "./stringBuilder";
  * 
  * @returns The formatted value
  */
-export function formatMinMax(value: IMinMax | number | null | undefined, units: string | null | undefined, unitAliases?: IDictionary<string>): string {
+export function formatMinMax(value: IMinMax | number | null | undefined, units: string | null | undefined, unitAliases?: IDictionary<string, string>): string {
     if (!value || !units) {
         return "";
     }

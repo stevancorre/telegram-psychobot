@@ -1,31 +1,31 @@
-import { formatInt } from "../helpers/formatters";
+import { ICommand, ICommandContext } from "../helpers/command";
 import { IMessageBuilder, MessageBuilder } from "../helpers/messageBuilder";
 import { IMessageCategoryBuilder, MessageCategoryBuilder } from "../helpers/messageCategoryBuilder";
-import { IWeight, parseWeight } from "../helpers/weightParser";
-import { ICommandContext, CommandCallback } from "./command";
+import { IWeight } from "../parsers/weightParser";
+import { formatInt } from "../helpers/formatters";
 
-// TODO: implement validate data in each command ?
-
-export const executeKetamineCalcCommandAsync: CommandCallback = async (context: ICommandContext): Promise<void> => {
-    if (!context.match) {
-        return;
-    }
-
-    const weight: IWeight | undefined = parseWeight(context.match);
-    if(!weight) {
-        return await executeHelpKetamineCalcCommandAsync(context);
-    }
-
-    await context.replyMessageAsync(buildKetamineCalcMessage(weight), "HTML");
+interface IKetamineCalcCommandArgs {
+    weight: IWeight;
 }
 
-export const executeHelpKetamineCalcCommandAsync: CommandCallback = async (context: ICommandContext): Promise<void> => {
-    const messageBuilder: IMessageBuilder = new MessageBuilder();
-    messageBuilder.appendLine("Usage: `/ketaminecalc <weight> <kg|lbs>`");
-    messageBuilder.appendLine("Example: `/ketaminecalc 70 kg`");
+export const ketamineCalcCommand: ICommand = {
+    name: "ketaminecalc",
+    description: "Gives you dosages for ketamine based on your weight",
+    args: [
+        {
+            name: "weight",
+            type: "weight",
+            description: "Your weight"
+        }
+    ],
 
-    await context.replyMessageAsync(messageBuilder.getContent(), "Markdown");
-}
+    callback: async (context: ICommandContext, argv: IKetamineCalcCommandArgs): Promise<void> => {
+        console.log(argv.weight);
+
+        const dosages: string = buildKetamineCalcMessage(argv.weight);
+        await context.replyMessageAsync(dosages, "HTML");
+    }
+};
 
 function buildKetamineCalcMessage(weight: IWeight): string {
     const messageBuilder: IMessageBuilder = new MessageBuilder();

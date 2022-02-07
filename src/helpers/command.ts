@@ -1,5 +1,6 @@
 import TelegramBot from "node-telegram-bot-api";
 import { TelegramClient } from "../client";
+import { IWeight } from "../parsers/weightParser";
 
 /**
  * Interface for a context in which a command is executed
@@ -60,7 +61,26 @@ export class CommandContext implements ICommandContext {
     }
 }
 
+export interface ICommand {
+    name: string;
+    description: string;
+    args?: ICommandArg[];
+
+    callback: CommandCallback;
+}
+
+export interface ICommandArg {
+    name: string;
+    description: string;
+
+    type: CommandArgType;
+}
+
+export type CommandArgType = "effect" | "substance" | "weight";
+
 /**
  * Callback type for a command
  */
-export type CommandCallback = (context: ICommandContext) => Promise<void>;
+export type CommandCallback = (context: ICommandContext, args?: any) => Promise<void>;
+
+export type CommandValidateDataCallback = (context: ICommandContext) => boolean;

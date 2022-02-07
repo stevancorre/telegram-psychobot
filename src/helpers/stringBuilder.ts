@@ -65,6 +65,8 @@ export interface IStringBuilder {
      */
 
     getContent(): string;
+
+    trimEnd(): IStringBuilder;
 }
 
 export class StringBuilder implements IStringBuilder {
@@ -111,5 +113,10 @@ export class StringBuilder implements IStringBuilder {
 
     public getContent(): string {
         return this.content;
+    }
+
+    public trimEnd(): IStringBuilder {
+        this.content = this.content.trimEnd();
+        return this;
     }
 }

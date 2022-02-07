@@ -2,64 +2,57 @@
 
 import rp from "request-promise";
 
-import { ICommandContext, CommandCallback } from "./command";
+import { ICommand, ICommandContext } from "../helpers/command";
 import { ISubstance } from "../types/substance";
 import { IMessageBuilder, MessageBuilder } from "../helpers/messageBuilder";
 import { IMessageCategoryBuilder, MessageCategoryBuilder } from "../helpers/messageCategoryBuilder";
 import { getPwInfoQuery } from "../queries/infoQuery";
 
 import { capitalize, formatMinMax } from "../helpers/formatters";
-import { durationAliases, substanceAliases } from "../tables/tables";
+import { durationAliases } from "../tables/tables";
 
 const PW_API_ENDPOINT: string = "https://api.psychonautwiki.org/";
 
-/**
- * Execute the `/help` command: shows a little presentation message and a list of all commands
- * 
- * @param context The context in which the command is executed
- */
-export const executeInfoCommandAsync: CommandCallback = async (context: ICommandContext): Promise<void> => {
-    if (!context.match) {
-        return;
-    }
-
-    // search for an alias and build the request uri
-    const substanceName: string = substanceAliases.tryGetValue(context.match[1], context.match[1]).replace(" ", "");
-    const query: string = getPwInfoQuery(substanceName);
-    const encodedQuery = encodeURIComponent(query);
-    const requestUri: string = `${PW_API_ENDPOINT}?query=${encodedQuery}`;
-
-    // execute the request
-    rp(requestUri)
-        .then(async rawResponse => {
-            const response: any = JSON.parse(rawResponse);
-
-            // if the response is empty, something went wrong
-            if (!response.data || !response.data.substances) {                
-                await context.replyMessageAsync(`Error: No API data available for <b>${context.match![1]}</b>`, "HTML");
-                return;
-            }
-
-            const substance: ISubstance = response.data.substances[0];
-            await context.replyMessageAsync(buildSubstanceInfoMessage(substance), "HTML");
-        })
-        .catch(async error => {
-            console.log(error);
-            await context.replyMessageAsync(`Error: No API data available for <b>${context.match![1]}</b>`, "HTML");
-        });
+interface IInfosCommandArgs {
+    substance: string;
 }
 
-/**
- * Displays the help for the `/info <substance>` command. It get invoked if the user forget the `<substance>` argument
- * 
- * @param context The context in which the command is executed
- */
-export const executeHelpInfoCommandAsync: CommandCallback = async (context: ICommandContext): Promise<void> => {
-    const messageBuilder: IMessageBuilder = new MessageBuilder();
-    messageBuilder.appendLine("Usage: `/info <drug>`");
-    messageBuilder.appendLine("Example: `/info ketamine`");
+export const infoCommand: ICommand = {
+    name: "info",
+    description: "Shows all infos available via the PsychonautnautWiki Api for a specific substance",
+    args: [
+        {
+            name: "substance",
+            type: "substance",
+            description: "The substance"
+        }
+    ],
 
-    await context.replyMessageAsync(messageBuilder.getContent(), "Markdown");
+    callback: async (context: ICommandContext, argv: IInfosCommandArgs): Promise<void> => {
+        // build the request uri
+        const query: string = getPwInfoQuery(argv.substance);
+        const encodedQuery = encodeURIComponent(query);
+        const requestUri: string = `${PW_API_ENDPOINT}?query=${encodedQuery}`;
+
+        // execute the request
+        rp(requestUri)
+            .then(async rawResponse => {
+                const response: any = JSON.parse(rawResponse);
+
+                // if the response is empty, something went wrong
+                if (!response.data || !response.data.substances) {
+                    await context.replyMessageAsync(`Error: No API data available for <b>${context.match![1]}</b>`, "HTML");
+                    return;
+                }
+
+                const substance: ISubstance = response.data.substances[0];
+                await context.replyMessageAsync(buildSubstanceInfoMessage(substance), "HTML");
+            })
+            .catch(async error => {
+                console.log(error);
+                await context.replyMessageAsync(`Error: No API data available for <b>${context.match![1]}</b>`, "HTML");
+            });
+    }
 }
 
 /**

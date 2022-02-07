@@ -9,21 +9,21 @@ import weightUnitsAliasesJson from "./weightUnitsAliases.json";
 /**
  * Aliases for durations (ex: `hours` -> `h`)
  */
-export const durationAliases: IDictionary<string> = new Dictionary<string>(durationAliasesJson);
+export const durationAliases: IDictionary<string, string> = new Dictionary<string, string>(durationAliasesJson);
 
 /**
  * Icons for substance interactions levels
  */
-export const interactionIcons: IDictionary<string> = new Dictionary<string>(interactionIconsJson);
+export const interactionIcons: IDictionary<string, string> = new Dictionary<string, string>(interactionIconsJson);
 
 /**
  * Pretty substance table (ex: `mdma` -> `MDMA`)
  */
-export const prettySubstanceNames: IDictionary<string> = new Dictionary<string>(prettySubstanceNamesJson);
+export const prettySubstanceNames: IDictionary<string, string> = new Dictionary<string, string>(prettySubstanceNamesJson);
 
 /**
  * Substance aliases (ex: `ket` -> `ketamine`)
  */
-export const substanceAliases: IDictionary<string> = new Dictionary<string>(substanceAliasesJson);
+export const substanceAliases: IDictionary<string, string> = new Dictionary<string, string>(substanceAliasesJson);
 
-export const weightUnitsAliases: IDictionary<string> = new Dictionary<string>(weightUnitsAliasesJson);
+export const weightUnitsAliases: IDictionary<string, string> = new Dictionary<string, string>(weightUnitsAliasesJson);
