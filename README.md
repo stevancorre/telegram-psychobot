@@ -13,7 +13,7 @@ This project is based on the [Dosebot Discord Bot](https://github.com/dosebotred
     - [x] Info
     - [x] Combos
     - [x] Ketamine calc
-    - [ ] DXM calc
+    - [x] DXM calc
     - [ ] Mushroom calc
     - [ ] Psychedelics tolerance calc
     - [x] Effects

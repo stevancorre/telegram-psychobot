@@ -7,6 +7,7 @@ import { combosCommand } from "./combosCommand";
 import { infoCommand } from "./infoCommand";
 import { effectsCommand } from "./effectsCommand";
 import { effectInfoCommand } from "./effectInfoCommand";
+import { dxmCalcCommand } from "./dxmCalcCommand";
 
 export const commands: ICommand[] = [
     breatheCommand,
@@ -15,5 +16,6 @@ export const commands: ICommand[] = [
     ketamineCalcCommand,
     effectsCommand,
     effectInfoCommand,
-    infoCommand
+    infoCommand,
+    dxmCalcCommand
 ]
