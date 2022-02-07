@@ -41,16 +41,16 @@ export const infoCommand: ICommand = {
 
                 // if the response is empty, something went wrong
                 if (!response.data || !response.data.substances) {
-                    await context.replyMessageAsync(`Error: No API data available for <b>${context.match![1]}</b>`, "HTML");
+                    await context.replyMessageAsync(`Error: No API data available for <b>${context.match![1]}</b>`, { parse_mode: "HTML" });
                     return;
                 }
 
                 const substance: ISubstance = response.data.substances[0];
-                await context.replyMessageAsync(buildSubstanceInfoMessage(substance), "HTML");
+                await context.replyMessageAsync(buildSubstanceInfoMessage(substance), { parse_mode: "HTML" });
             })
             .catch(async error => {
                 console.log(error);
-                await context.replyMessageAsync(`Error: No API data available for <b>${context.match![1]}</b>`, "HTML");
+                await context.replyMessageAsync(`Error: No API data available for <b>${context.match![1]}</b>`,  { parse_mode: "HTML" });
             });
     }
 }

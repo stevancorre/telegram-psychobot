@@ -30,7 +30,7 @@ export const combosCommand: ICommand = {
         rp(requestUri)
             .then(async response => {
                 if (response.err === true) {
-                    await context.replyMessageAsync(`Error fetching combos from TripSit: <b>${response.data.msg}</b>`, "HTML");
+                    await context.replyMessageAsync(`Error fetching combos from TripSit: <b>${response.data.msg}</b>`, { parse_mode: "HTML" });
                     return;
                 }
 
@@ -39,7 +39,7 @@ export const combosCommand: ICommand = {
                 // check if the api gave us something
                 const rawCombos = responseData.combos;
                 if (!rawCombos) {
-                    await context.replyMessageAsync(`Error getting <b>${argv.substance}</b> combos from TripSit API`, "HTML");
+                    await context.replyMessageAsync(`Error getting <b>${argv.substance}</b> combos from TripSit API`, { parse_mode: "HTML" });
                     return;
                 }
 
@@ -72,11 +72,11 @@ export const combosCommand: ICommand = {
                     }
                 }
 
-                await context.replyMessageAsync(buildSubstanceCombosMessage(responseData.pretty_name, combos), "HTML");
+                await context.replyMessageAsync(buildSubstanceCombosMessage(responseData.pretty_name, combos), { parse_mode: "HTML" });
             })
             .catch(async error => {
                 console.log(error);
-                await context.replyMessageAsync(`Error getting <b>${context.match![1]}</b> combos from TripSit API`, "HTML");
+                await context.replyMessageAsync(`Error getting <b>${context.match![1]}</b> combos from TripSit API`, { parse_mode: "HTML" });
             });
     }
 }

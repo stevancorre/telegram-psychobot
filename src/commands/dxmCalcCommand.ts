@@ -21,7 +21,7 @@ export const dxmCalcCommand: ICommand = {
 
     callback: async (context: ICommandContext, argv: IDxmCalcCommandArgs): Promise<void> => {
         const dosages: string = buildDxmCalcMessage(argv.weight);
-        await context.replyMessageAsync(dosages, "HTML");
+        await context.replyMessageAsync(dosages, { parse_mode: "HTML" });
     }
 };
 

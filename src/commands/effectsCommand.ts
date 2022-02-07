@@ -40,7 +40,7 @@ export const effectsCommand: ICommand = {
 
                 // if the response is empty, something went wrong            
                 if (!response.data || !response.data.substances || !response.data.substances[0].effects) {
-                    await context.replyMessageAsync(`Error: No API data available for <b>${context.match![1]}</b>`, "HTML");
+                    await context.replyMessageAsync(`Error: No API data available for <b>${context.match![1]}</b>`, { parse_mode: "HTML" });
                     return;
                 }
 
@@ -54,11 +54,11 @@ export const effectsCommand: ICommand = {
                     }
                 }
 
-                await context.replyMessageAsync(buildSubstanceEffectsMessage(substanceName, substanceEffects), "HTML");
+                await context.replyMessageAsync(buildSubstanceEffectsMessage(substanceName, substanceEffects), { parse_mode: "HTML" });
             })
             .catch(async error => {
                 console.log(error);
-                await context.replyMessageAsync(`Error: No API data available for <b>${context.match![1]}</b>`, "HTML");
+                await context.replyMessageAsync(`Error: No API data available for <b>${context.match![1]}</b>`, { parse_mode: "HTML" });
             });
     }
 }

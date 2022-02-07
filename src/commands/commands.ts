@@ -8,8 +8,9 @@ import { infoCommand } from "./infoCommand";
 import { effectsCommand } from "./effectsCommand";
 import { effectInfoCommand } from "./effectInfoCommand";
 import { dxmCalcCommand } from "./dxmCalcCommand";
+import { helpCommand } from "./helpCommand";
 
-export const commands: ICommand[] = [
+export const Commands: ICommand[] = [
     breatheCommand,
     combosCommand,
     pingCommand,
@@ -17,5 +18,6 @@ export const commands: ICommand[] = [
     effectsCommand,
     effectInfoCommand,
     infoCommand,
-    dxmCalcCommand
+    dxmCalcCommand,
+    helpCommand
 ]

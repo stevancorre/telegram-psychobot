@@ -1,6 +1,5 @@
 import TelegramBot from "node-telegram-bot-api";
 import { TelegramClient } from "../client";
-import { IWeight } from "../parsers/weightParser";
 
 /**
  * Interface for a context in which a command is executed
@@ -34,7 +33,7 @@ export interface ICommandContext {
      * @param text The message content
      * @param parseMode The message parse mode
      */
-    replyMessageAsync(text: string, parseMode: TelegramBot.ParseMode): Promise<TelegramBot.Message>
+    replyMessageAsync(text: string, options?: TelegramBot.SendMessageOptions): Promise<TelegramBot.Message>
 }
 
 /**
@@ -53,11 +52,12 @@ export class CommandContext implements ICommandContext {
         return await this.client.sendVideo(chatId, video, { reply_to_message_id: messageId })
     }
 
-    public async replyMessageAsync(text: string, parseMode: TelegramBot.ParseMode = "MarkdownV2"): Promise<TelegramBot.Message> {
+    public async replyMessageAsync(text: string, options?: TelegramBot.SendMessageOptions): Promise<TelegramBot.Message> {
         const chatId: number = this.message.chat.id;
         const messageId: number = this.message.message_id;
 
-        return await this.client.sendMessage(chatId, text, { reply_to_message_id: messageId, parse_mode: parseMode });
+        options = { ...options, reply_to_message_id: messageId };
+        return await this.client.sendMessage(chatId, text, options);
     }
 }
 

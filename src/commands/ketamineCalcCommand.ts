@@ -23,7 +23,7 @@ export const ketamineCalcCommand: ICommand = {
         console.log(argv.weight);
 
         const dosages: string = buildKetamineCalcMessage(argv.weight);
-        await context.replyMessageAsync(dosages, "HTML");
+        await context.replyMessageAsync(dosages, { parse_mode: "HTML" });
     }
 };
 

@@ -8,7 +8,7 @@ import { weightParser } from "./weightParser";
 
 // TODO parser<any> -> parser<T> -> args as T
 
-export const parsers: IDictionary<CommandArgType, IParser> = new Dictionary<CommandArgType, IParser>({
+export const Parsers: IDictionary<CommandArgType, IParser> = new Dictionary<CommandArgType, IParser>({
     ["effect"]: effectParser,
     ["substance"]: substanceParser,
     ["weight"]: weightParser,

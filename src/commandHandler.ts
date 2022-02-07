@@ -5,8 +5,8 @@ import { ICommand, ICommandContext, CommandContext } from "./helpers/command";
 import { IMessageBuilder, MessageBuilder } from "./helpers/messageBuilder";
 import { IStringBuilder, StringBuilder } from "./helpers/stringBuilder";
 
-import { commands } from "./commands/commands";
-import { parsers } from "./parsers/parsers";
+import { Commands } from "./commands/commands";
+import { Parsers } from "./parsers/parsers";
 
 export interface ICommandHandler {
     registerCommands(): Promise<void>;
@@ -20,7 +20,7 @@ export class CommandHandler implements ICommandHandler {
         const helps: string[] = [];
 
         let failCount: number = 0;
-        for (const command of commands) {
+        for (const command of Commands) {
             if (!this.registerCommand(helps, command)) {
                 failCount++;
                 continue;
@@ -35,7 +35,7 @@ export class CommandHandler implements ICommandHandler {
         }
 
         await this.client.setMyCommands(botCommands);
-        this.client.log(`${commands.length - failCount}/${commands.length} commands registered`);
+        this.client.log(`${Commands.length - failCount}/${Commands.length} commands registered`);
     }
 
     private registerCommand(helps: string[], command: ICommand): boolean {
@@ -50,17 +50,17 @@ export class CommandHandler implements ICommandHandler {
 
             const argsMatch: RegExpExecArray | null = argsRegexp.exec(match.input.substring(command.name.length + 2));
             if (!argsMatch) {
-                return await context.replyMessageAsync(usage, "Markdown");
+                return await context.replyMessageAsync(usage, { parse_mode: "Markdown" });
             }
 
             const argv: any = {}
             let argPos: number = 1;
             for (const arg of command.args ?? []) {
-                const parser = parsers.getValue(arg.type);
+                const parser = Parsers.getValue(arg.type);
                 const value: any | undefined = parser?.callback(argsMatch, argPos);
 
                 if (value === undefined) {
-                    return await context.replyMessageAsync(usage, "Markdown");
+                    return await context.replyMessageAsync(usage, { parse_mode: "Markdown" });
                 }
 
                 argv[arg.name] = value;
@@ -79,7 +79,7 @@ export class CommandHandler implements ICommandHandler {
         const exampleBuilder: IStringBuilder = new StringBuilder(`Example: \`/${command.name} `);
 
         for (const arg of command.args ?? []) {
-            const argExample: string | undefined = parsers.getValue(arg.type)?.example;
+            const argExample: string | undefined = Parsers.getValue(arg.type)?.example;
             if (!argExample) {
                 this.client.log(`error: missing example for type \`${arg.type}\``);
                 return;
@@ -102,7 +102,7 @@ export class CommandHandler implements ICommandHandler {
         const regexpBuilder: IStringBuilder = new StringBuilder();
 
         for (const arg of command.args ?? []) {
-            const argRegexp = parsers.getValue(arg.type)?.regexp;
+            const argRegexp = Parsers.getValue(arg.type)?.regexp;
             if (!argRegexp) {
                 this.client.log(`error: missing regexp for type \`${arg.type}\``);
                 return;

@@ -5,6 +5,6 @@ export const pingCommand: ICommand = {
     description: "Checks if the bot is online",
 
     callback: async (context: ICommandContext): Promise<void> => {
-        await context.replyMessageAsync("Pong\\! 🏓", "MarkdownV2"); // table tennis emoji
+        await context.replyMessageAsync("Pong\\! 🏓", { parse_mode: "MarkdownV2" }); // table tennis emoji
     }
 };

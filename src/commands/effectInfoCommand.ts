@@ -34,16 +34,16 @@ export const effectInfoCommand: ICommand = {
 
                 // if the response is empty, something went wrong            
                 if (!response.effect || !response.effect.summary_raw) {
-                    await context.replyMessageAsync(`Error: No API data available for <b>${context.match![1]}</b>`, "HTML");
+                    await context.replyMessageAsync(`Error: No API data available for <b>${context.match![1]}</b>`, { parse_mode: "HTML" });
                     return;
                 }
 
                 const effectInfo: IEffectInfo = response.effect as IEffectInfo;
-                await context.replyMessageAsync(buildEffectInfoMessage(argv.effect, effectInfo), "HTML");
+                await context.replyMessageAsync(buildEffectInfoMessage(argv.effect, effectInfo), { parse_mode: "HTML" });
             })
             .catch(async error => {
                 console.log(error);
-                await context.replyMessageAsync(`Error: No API data available for <b>${context.match![1]}</b>`, "HTML");
+                await context.replyMessageAsync(`Error: No API data available for <b>${context.match![1]}</b>`, { parse_mode: "HTML" });
             });
     }
 }
