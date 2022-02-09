@@ -1,25 +1,25 @@
 import { ICommand } from "../helpers/command";
 
-import { pingCommand } from "./pingCommand";
-import { ketamineCalcCommand } from "./ketamineCalcCommand";
 import { breatheCommand } from "./breatheCommand";
-import { combosCommand } from "./combosCommand";
-import { infoCommand } from "./infoCommand";
-import { effectsCommand } from "./effectsCommand";
-import { effectInfoCommand } from "./effectInfoCommand";
-import { dxmCalcCommand } from "./dxmCalcCommand";
-import { helpCommand } from "./helpCommand";
 import { comboChartCommand } from "./comboChartCommand";
+import { combosCommand } from "./combosCommand";
+import { dxmCalcCommand } from "./dxmCalcCommand";
+import { effectInfoCommand } from "./effectInfoCommand";
+import { effectsCommand } from "./effectsCommand";
+import { helpCommand } from "./helpCommand";
+import { infoCommand } from "./infoCommand";
+import { ketamineCalcCommand } from "./ketamineCalcCommand";
+import { pingCommand } from "./pingCommand";
 
 export const Commands: ICommand[] = [
     breatheCommand,
+    comboChartCommand,
     combosCommand,
-    pingCommand,
-    ketamineCalcCommand,
-    effectsCommand,
-    effectInfoCommand,
-    infoCommand,
     dxmCalcCommand,
+    effectInfoCommand,
+    effectsCommand,
     helpCommand,
-    comboChartCommand
+    infoCommand,
+    ketamineCalcCommand,
+    pingCommand,
 ]
