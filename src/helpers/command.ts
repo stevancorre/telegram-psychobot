@@ -20,6 +20,8 @@ export interface ICommandContext {
      */
     match: RegExpExecArray | null;
 
+    replyPhotoAsync(photo: string): Promise<TelegramBot.Message>;
+
     /**
      * Replies with a video or gif
      * 
@@ -44,6 +46,13 @@ export class CommandContext implements ICommandContext {
         public client: TelegramClient,
         public message: TelegramBot.Message,
         public match: RegExpExecArray | null) { }
+
+    public async replyPhotoAsync(photo: string): Promise<TelegramBot.Message> {
+        const chatId: number = this.message.chat.id;
+        const messageId: number = this.message.message_id;
+
+        return await this.client.sendPhoto(chatId, photo, { reply_to_message_id: messageId })
+    }
 
     public async replyVideoAsync(video: string): Promise<TelegramBot.Message> {
         const chatId: number = this.message.chat.id;

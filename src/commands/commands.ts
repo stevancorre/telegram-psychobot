@@ -9,6 +9,7 @@ import { effectsCommand } from "./effectsCommand";
 import { effectInfoCommand } from "./effectInfoCommand";
 import { dxmCalcCommand } from "./dxmCalcCommand";
 import { helpCommand } from "./helpCommand";
+import { comboChartCommand } from "./comboChartCommand";
 
 export const Commands: ICommand[] = [
     breatheCommand,
@@ -19,5 +20,6 @@ export const Commands: ICommand[] = [
     effectInfoCommand,
     infoCommand,
     dxmCalcCommand,
-    helpCommand
+    helpCommand,
+    comboChartCommand
 ]
