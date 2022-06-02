@@ -1,0 +1,6 @@
+{
+    "vars": {
+        "outDir": "dist"
+    },
+    "transactions": ".env -> {{ outDir }}"
+}

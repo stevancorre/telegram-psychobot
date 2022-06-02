@@ -1,47 +1,48 @@
 {
-  "name": "telegram-psychobot",
-  "version": "1.0.0",
-  "description": "Telegram bot that give you informations about psychoactive substances",
-  "main": "src/main.ts",
-  "scripts": {
-    "start:dev": "nodemon",
-    "start": "npm run build && node build/main.ts",
-    "build": "rimraf ./build && tsc"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/stevancorre/telegram-psychobot.git"
-  },
-  "keywords": [
-    "Bot",
-    "Telegram",
-    "NPM",
-    "Node",
-    "TypeScript",
-    "Psychoactive",
-    "Dosebot",
-    "Psybot",
-    "Drug"
-  ],
-  "author": "Stévan Corre <stevancorre@protonmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/stevancorre/telegram-psychobot/issues"
-  },
-  "homepage": "https://github.com/stevancorre/telegram-psychobot#readme",
-  "devDependencies": {
-    "@types/node": "^17.0.14",
-    "@types/node-telegram-bot-api": "^0.53.6",
-    "@types/request-promise": "^4.1.48",
-    "nodemon": "^2.0.15",
-    "rimraf": "^3.0.2",
-    "ts-node": "^10.4.0",
-    "typescript": "^4.5.5"
-  },
-  "dependencies": {
-    "dotenv": "^15.0.0",
-    "moment": "^2.29.1",
-    "node-telegram-bot-api": "^0.56.0",
-    "request-promise": "^4.2.6"
-  }
+    "name": "telegram-psychobot",
+    "version": "1.0.0",
+    "description": "Telegram bot that give you informations about psychoactive substances",
+    "main": "src/main.ts",
+    "scripts": {
+        "start:dev": "nodemon",
+        "start": "npm run build && node dist/main.js",
+        "build": "rimraf dist && tsup && smart-copy"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/stevancorre/telegram-psychobot.git"
+    },
+    "keywords": [
+        "Bot",
+        "Telegram",
+        "NPM",
+        "Node",
+        "TypeScript",
+        "Psychoactive",
+        "Dosebot",
+        "Psybot",
+        "Drug"
+    ],
+    "author": "Stévan Corre <stevancorre@protonmail.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/stevancorre/telegram-psychobot/issues"
+    },
+    "homepage": "https://github.com/stevancorre/telegram-psychobot#readme",
+    "devDependencies": {
+        "@types/node": "^17.0.14",
+        "@types/node-telegram-bot-api": "^0.53.6",
+        "@types/request-promise": "^4.1.48",
+        "nodemon": "^2.0.15",
+        "rimraf": "^3.0.2",
+        "smart-copy-cli": "^1.0.3",
+        "ts-node": "^10.4.0",
+        "tsup": "^6.0.1"
+    },
+    "dependencies": {
+        "dotenv": "^15.0.0",
+        "moment": "^2.29.1",
+        "node-telegram-bot-api": "^0.56.0",
+        "request-promise": "^4.2.6"
+    }
 }
